@@ -15,3 +15,7 @@ func Shuffle(vals []int) []int {
 	return dest
 }
 
+func GetNewRandom() *rand.Rand {
+	return rand.New(rand.NewSource(time.Now().Unix()))
+}
+

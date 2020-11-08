@@ -3,13 +3,11 @@ package content
 import (
 	"log"
 
+	"github.com/Nirespire/swn/content/name"
+	"github.com/Nirespire/swn/content/background"
 	"github.com/Nirespire/swn/util"
 	"github.com/justinian/dice"
 )
-
-type Background struct {
-	name string
-}
 
 type Cyberware struct {
 	name string
@@ -75,7 +73,7 @@ type PlayerCharacter struct {
 	Level         int
 	Stats         Stats
 	Homeworld     string
-	Background    Background
+	Background    background.Background
 	Faction       string
 	Foci          []Focus
 	Cyberware     Cyberware
@@ -89,15 +87,30 @@ type PlayerCharacter struct {
 	SavingThrows  SavingThrows
 }
 
-type PlayerCharacterGenerator interface {
-	RandomRoll()
+func (pc *PlayerCharacter) RandomRoll(pickArray bool, culture name.Culture, gender name.Gender) {
+
+	// 1 - Roll your six attributes or assign them from an array
+	// 2 - Mark down your attribute modifiers for each score.
+	pc.Stats = generateStats(pickArray)
+	
+	// 3 - Pick a Background
+	pc.Background = generateBackground()
+	
+	// misc
+
+	// Pick Name
+	pc.Name = name.GetNameByCultureGender(culture, gender)
 }
 
-func (pc *PlayerCharacter) RandomRoll(pickArray bool) {
+func generateBackground() background.Background {
+	return background.BackgroundsList[util.GetNewRandom().Intn(len(background.BackgroundsList))]
+}
+
+func generateStats(pickArray bool) Stats {
+	stats := Stats{}
 
 	var arrayStats []int
 
-	// 1
 	if pickArray {
 		log.Print("Using array stats")
 		arrayStats = util.Shuffle([]int{14, 12, 11, 10, 9, 7})
@@ -111,16 +124,17 @@ func (pc *PlayerCharacter) RandomRoll(pickArray bool) {
 		}
 	}
 
-	pc.Stats.strength = statsAndMod(arrayStats[0])
-	pc.Stats.dexterity = statsAndMod(arrayStats[1])
-	pc.Stats.constitution = statsAndMod(arrayStats[2])
-	pc.Stats.intelligence = statsAndMod(arrayStats[3])
-	pc.Stats.wisdom = statsAndMod(arrayStats[4])
-	pc.Stats.charisma = statsAndMod(arrayStats[5])
+	stats.strength = generateStatsAndMod(arrayStats[0])
+	stats.dexterity = generateStatsAndMod(arrayStats[1])
+	stats.constitution = generateStatsAndMod(arrayStats[2])
+	stats.intelligence = generateStatsAndMod(arrayStats[3])
+	stats.wisdom = generateStatsAndMod(arrayStats[4])
+	stats.charisma = generateStatsAndMod(arrayStats[5])
 
+	return stats
 }
 
-func statsAndMod(value int) Stat {
+func generateStatsAndMod(value int) Stat {
 	stat := Stat{}
 
 	stat.value = value
