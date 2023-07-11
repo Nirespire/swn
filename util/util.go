@@ -19,3 +19,6 @@ func GetNewRandom() *rand.Rand {
 	return rand.New(rand.NewSource(time.Now().Unix()))
 }
 
+func GetRandomArrayString(arr []string) string {
+	return arr[GetNewRandom().Intn(len(arr))]
+}

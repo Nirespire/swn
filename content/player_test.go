@@ -3,8 +3,8 @@ package content
 import (
 	"testing"
 
-	"github.com/Nirespire/swn/content/background"
-	"github.com/Nirespire/swn/content/name"
+	"github.com/Nirespire/swn/content/player/background"
+	"github.com/Nirespire/swn/content/player/name"
 )
 
 func TestPcRandomRoll(t *testing.T) {

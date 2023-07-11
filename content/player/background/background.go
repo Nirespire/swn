@@ -1,8 +1,15 @@
 package background
 
+import "github.com/Nirespire/swn/content/player/skill"
+
 type Background struct {
 	name        string
 	description string
+}
+
+type SkillTable struct {
+	freeSkill skill.Skill
+	
 }
 
 var BackgroundsList = []Background{

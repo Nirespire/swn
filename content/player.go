@@ -3,8 +3,9 @@ package content
 import (
 	"log"
 
-	"github.com/Nirespire/swn/content/name"
-	"github.com/Nirespire/swn/content/background"
+	"github.com/Nirespire/swn/content/player/background"
+	"github.com/Nirespire/swn/content/player/name"
+	"github.com/Nirespire/swn/content/player/skill"
 	"github.com/Nirespire/swn/util"
 	"github.com/justinian/dice"
 )
@@ -44,18 +45,6 @@ type Health struct {
 	max     int
 }
 
-type Skill struct {
-	name       string
-	decription string
-	level      int
-}
-
-type PsychicSkill struct {
-	name        string
-	description string
-	level       int
-}
-
 type Effort struct {
 	current int
 	active  int
@@ -79,8 +68,8 @@ type PlayerCharacter struct {
 	Cyberware     Cyberware
 	Gear          []Gear
 	Weapons       []Weapon
-	Skills        []Skill
-	PsychicSkills []PsychicSkill
+	Skills        skill.Skills
+	PsychicSkills skill.PsychicSkills
 	Credits       int
 	Debt          int
 	Effort        Effort
